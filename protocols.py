@@ -55,7 +55,7 @@ class ReconnectingProtocol(asyncio.Protocol):
                 port=port,
                 ssl=ssl)
             if ssl:
-                connection_params['server_name'] = 'hprox.com'
+                connection_params['server_hostname'] = 'hprox.com'
 
             try:
                 transport, protocol = await loop.create_connection(**connection_params)
