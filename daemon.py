@@ -117,11 +117,13 @@ def run_daemon():
     loop.run_until_complete(asyncio.gather(
         mng_service.start_client(
             public_key=settings.PUBLIC_KEY,
-            secret_key=settings.SECRET_KEY
+            secret_key=settings.SECRET_KEY,
+            ssl=settings.PROXY_SSL_ENABLED
         ),
         fetcher_central_service.start_client(
             public_key=settings.PUBLIC_KEY,
-            secret_key=settings.SECRET_KEY
+            secret_key=settings.SECRET_KEY,
+            ssl=settings.PROXY_SSL_ENABLED
         )
     ))
 

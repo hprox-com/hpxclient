@@ -60,7 +60,8 @@ async def start_client(
         password=None,
         public_key=None,
         secret_key=None,
-        message_handler=None):
+        message_handler=None,
+        ssl=None):
 
     manager_factory = get_client_protocol_factory(
         email=email,
@@ -73,6 +74,7 @@ async def start_client(
     await ManagerProtocol.create_conn(
         manager_factory,
         host=settings.PROXY_MNG_SERVER_IP,
-        port=settings.PROXY_MNG_SERVER_PORT
+        port=settings.PROXY_MNG_SERVER_PORT,
+        ssl=ssl
     )
 

@@ -53,7 +53,8 @@ async def start_client(
         email=None,
         password=None,
         public_key=None,
-        secret_key=None):
+        secret_key=None,
+        ssl=None):
 
     return await CentralFetcherProtocol.create_conn(
         proto_factory=get_protocol_factory(
@@ -62,5 +63,6 @@ async def start_client(
             public_key=public_key,
             secret_key=secret_key),
         host=settings.PROXY_FETCHER_SERVER_IP,
-        port=settings.PROXY_FETCHER_SERVER_PORT
+        port=settings.PROXY_FETCHER_SERVER_PORT,
+        ssl=ssl
     )
