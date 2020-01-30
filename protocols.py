@@ -35,7 +35,11 @@ class ReconnectingProtocol(asyncio.Protocol):
         task.add_done_callback(onexit)
 
     @classmethod
-    async def _create_conn(cls, proto_factory, host, port, last_connection_time=None):
+    async def _create_conn(cls,
+                           proto_factory,
+                           host, port,
+                           last_connection_time=None,
+                           ssl=None):
         loop = asyncio.get_event_loop()
         sleep_time = cls.MIN_SLEEP_TIME
 
@@ -45,12 +49,16 @@ class ReconnectingProtocol(asyncio.Protocol):
                 await asyncio.sleep(10)
                 continue
 
-            try:
-                transport, protocol = await loop.create_connection(
-                    proto_factory,
-                    host=host,
-                    port=port)
+            connection_params = dict(
+                protocol_factory = proto_factory,
+                host=host,
+                port=port,
+                ssl=ssl)
+            if ssl:
+                connection_params['server_name'] = 'hprox.com'
 
+            try:
+                transport, protocol = await loop.create_connection(**connection_params)
                 protocol.host = host
                 protocol.port = port
                 protocol.proto_factory = proto_factory
@@ -63,8 +71,8 @@ class ReconnectingProtocol(asyncio.Protocol):
                 print("Disconnected. Reconnecting in %s seconds" % sleep_time)
 
     @classmethod
-    async def create_conn(cls, proto_factory, host, port):
-        await cls._create_conn(proto_factory, host, port)
+    async def create_conn(cls, proto_factory, host, port, ssl=None):
+        await cls._create_conn(proto_factory, host, port, ssl=ssl)
 
 
 class MsgpackReconnectingProtocol(ReconnectingProtocol):

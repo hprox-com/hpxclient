@@ -28,6 +28,8 @@ PROXY_FETCHER_LOCAL_PORT = 8090
 # The server with job to fetching (connected by domestic proxies).
 PROXY_FETCHER_SERVER_IP, PROXY_FETCHER_SERVER_PORT = DOMAIN_IP, 10012
 
+PROXY_SSL_ENABLED = True
+
 # The proxy engine management server.
 PROXY_MNG_SERVER_IP, PROXY_MNG_SERVER_PORT = DOMAIN_IP, 10010
 
