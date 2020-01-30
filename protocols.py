@@ -15,6 +15,7 @@ class ReconnectingProtocol(asyncio.Protocol):
 
         self.host = None
         self.port = None
+        self.ssl = None
 
         # When last time connection was made successfully
         self.last_connection_time = None
@@ -30,7 +31,8 @@ class ReconnectingProtocol(asyncio.Protocol):
             self.proto_factory,
             self.host,
             self.port,
-            self.last_connection_time
+            self.last_connection_time,
+            self.ssl
         ))
         task.add_done_callback(onexit)
 
@@ -62,6 +64,7 @@ class ReconnectingProtocol(asyncio.Protocol):
                 protocol.host = host
                 protocol.port = port
                 protocol.proto_factory = proto_factory
+                protocol.ssl = ssl
                 protocol.last_connection_time = time.time()
 
                 return transport, protocol
