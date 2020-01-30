@@ -12,6 +12,12 @@ from hpxclient.mng import service as mng_service
 from hpxclient.fetcher.central import service as fetcher_central_service
 
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(levelname)7s: %(message)s',
+    stream=sys.stdout,
+)
+
 def set_ips(settings, domain):
     ip_consts = ['LISTENER', 'FETCHER', 'MNG', 'BRIDGE']
     domain_ip = socket.gethostbyname(domain)
@@ -106,6 +112,7 @@ def load_config():
 def run_daemon():
     load_config()
     loop = asyncio.get_event_loop()
+    loop.set_debug(True)
 
     loop.run_until_complete(asyncio.gather(
         mng_service.start_client(
