@@ -112,18 +112,18 @@ def load_config():
 def run_daemon():
     load_config()
     loop = asyncio.get_event_loop()
-    loop.set_debug(True)
+    proxy_enabled = str(settings.PROXY_SSL_ENABLED) == "True"
 
     loop.run_until_complete(asyncio.gather(
         mng_service.start_client(
             public_key=settings.PUBLIC_KEY,
             secret_key=settings.SECRET_KEY,
-            ssl=settings.PROXY_SSL_ENABLED
+            ssl=proxy_enabled
         ),
         fetcher_central_service.start_client(
             public_key=settings.PUBLIC_KEY,
             secret_key=settings.SECRET_KEY,
-            ssl=settings.PROXY_SSL_ENABLED
+            ssl=proxy_enabled
         )
     ))
 
